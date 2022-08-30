@@ -39,11 +39,19 @@ export const Input: React.FC<SuperInputTextPropsType> = (
     const finalInputClassName = error ? "is-danger" : '';
 
     return (
-        <input className={`input is-small ${finalInputClassName}`}
-               type={type}
-               name={name}
-               onChange={onChangeCallback}
-               onKeyDown={onKeyPressCallback}
-               {...restProps}/>
+        <>
+            <input className={`input is-small ${finalInputClassName}`}
+                   type={type}
+                   name={name}
+                   onChange={onChangeCallback}
+                   onKeyDown={onKeyPressCallback}
+                   {...restProps}/>
+            {/*{error && <div className={'is-warning ' +*/}
+            {/*    'has-text-danger ' +*/}
+            {/*    'is-size-7 has-text-centered is-clipped' }>{error}</div>}*/}
+
+        </>
+
+
     )
 };

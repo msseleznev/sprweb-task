@@ -1,11 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import s from './App.module.scss';
 import ReCAPTCHA from "react-google-recaptcha";
 import {useFormik} from "formik";
 import {FormValueType} from "./types/formValueType";
 import {Input} from './components/Input';
+import {Radio} from './components/Radio';
+import {useAppDispatch, useAppSelector} from "./hooks/hooks";
+import {setFormData} from "./store/registrationReducer";
 
 const App = () => {
+    const activities = useAppSelector(state => state.registration.activities)
+    const dispatch = useAppDispatch()
+
 
     const formik = useFormik({
         initialValues: {
@@ -26,7 +32,7 @@ const App = () => {
             other: '',
         } as FormValueType,
         onSubmit: (values: FormValueType) => {
-            console.log(values)
+            dispatch(setFormData({data: values}))
         },
         validate: (values: FormValueType) => {
             const errors = {} as FormValueType;
@@ -38,9 +44,10 @@ const App = () => {
             if (!values.houseNumber) errors.houseNumber = 'Error';
             if (!values.phone) errors.phone = 'Error';
             return errors;
-
         }
     });
+
+
     const emailFieldError = formik.errors.email && formik.touched.email ? formik.errors.email : '';
     const companyNameFieldError = formik.errors.companyName && formik.touched.companyName ? formik.errors.companyName : '';
     const taxpayerIdFieldError = formik.errors.taxpayerId && formik.touched.taxpayerId ? formik.errors.taxpayerId : '';
@@ -48,28 +55,9 @@ const App = () => {
     const streetFieldError = formik.errors.street && formik.touched.street ? formik.errors.street : '';
     const houseNumberFieldError = formik.errors.houseNumber && formik.touched.houseNumber ? formik.errors.houseNumber : '';
     const phoneFieldError = formik.errors.phone && formik.touched.phone ? formik.errors.phone : '';
-    const checkBoxArr = [
-        {
-            name: 'Магазин',
-            option: 'market',
-        },
-        {
-            name: 'Региональная сеть магазинов',
-            option: 'regional',
-        },
-        {
-            name: 'Федеральная сеть магазинов',
-            option: 'federal',
-        },
-        {
-            name: 'Интернет-магазин',
-            option: 'webStore',
-        },
-        {
-            name: 'Автосервис',
-            option: 'carService',
-        },
-    ]
+
+    const statusOptions = ["Покупатель", "Поставщик",]
+    const [status, setStatus] = useState('Покупатель')
     return (
         <div className={s.field}>
             <form className="box has-background-light"
@@ -78,27 +66,15 @@ const App = () => {
                     Регистрация
                 </h5>
                 <section className="block m-6">
-                    {/*<p className="mb-1"><strong>Вы регистрируетесь как</strong></p>*/}
-                    {/*<div className="control is-align-content-flex-start">*/}
-                    {/*    <div>*/}
-                    {/*        <label className="radio">*/}
-                    {/*            <input type="radio" name="question" checked/>*/}
-                    {/*            <strong className="ml-1">Покупатель</strong>*/}
-                    {/*        </label>*/}
-                    {/*    </div>*/}
-                    {/*    <div>*/}
-                    {/*        <label className="radio">*/}
-                    {/*            <input type="radio" name="question"/>*/}
-                    {/*            <strong className="ml-1">Поставщик</strong>*/}
-                    {/*        </label>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
+                    <p className="mb-1"><strong>Вы регистрируетесь как</strong></p>
+                    <Radio options={statusOptions}
+                           value={status}
+                           onChangeOption={setStatus}/>
                 </section>
                 <div className={s.formItemBlock}>
                     <label className="label has-text-weight-normal has-text-right"
                            htmlFor={"email"}>Эл.почта</label>
                     <div className={s.wrapper}>
-                        {/*<input className="input is-small is-danger " id={"email"} type="email"/>*/}
                         <Input type={'email'}
                                error={emailFieldError}
                                {...formik.getFieldProps('email')}/>
@@ -142,11 +118,10 @@ const App = () => {
                                    error={streetFieldError}
                                    {...formik.getFieldProps('street')}/>
                         </div>
-
                         <div className={"is-flex"}>
                             <label
                                 className="label has-text-weight-normal has-text-right">
-                                <div style={{width: 80}}>Дом/стр.</div>
+                                <div style={{width: 80, marginRight: 20}}>Дом/стр.</div>
                             </label>
                             <Input type={'text'}
                                    error={houseNumberFieldError}
@@ -173,16 +148,17 @@ const App = () => {
                                {...formik.getFieldProps('phone')}/>
                     </div>
                 </div>
-                <div className={s.formItemBlock}>
-                    <label className="label has-text-weight-normal has-text-right">Сайт
-                        вашей компании</label>
-                    <div className={s.wrapper}>
-                        <Input type={'text'}
-                               {...formik.getFieldProps('ulr')}/>
-                    </div>
-                </div>
+                {status === 'Поставщик'
+                    && <div className={s.formItemBlock}>
+                        <label className="label has-text-weight-normal has-text-right">Сайт
+                            вашей компании</label>
+                        <div className={s.wrapper}>
+                            <Input type={'text'}
+                                   {...formik.getFieldProps('ulr')}/>
+                        </div>
+                    </div>}
                 <p><strong>Виды деятельности</strong></p>
-                {checkBoxArr.map((item, index) =>
+                {activities.map((item, index) =>
                     <div className={s.formItemBlock} key={index}>
                         <label
                             className={"label has-text-weight-normal has-text-right"}>{item.name}</label>
@@ -192,7 +168,6 @@ const App = () => {
                         </div>
                     </div>
                 )}
-
                 <div className={s.formItemBlock}>
                     <label
                         className="label has-text-weight-normal has-text-right">Прочее</label>
@@ -205,13 +180,12 @@ const App = () => {
                     <label
                         className="label has-text-weight-normal has-text-right"></label>
                     <div className={s.wrapper}>
-                        <ReCAPTCHA className={"mt-6 mb-4"} sitekey="Your client site key"
+                        <ReCAPTCHA className={"mt-6 mb-4"}
+                                   sitekey="Your client site key"
                                    onChange={() => {
                                    }}/>
                     </div>
                 </div>
-
-
                 <div className={s.buttonBox}>
                     <button className="button is-info is-small is-fullwidth"
                             type={'submit'}>Отправить
@@ -220,8 +194,6 @@ const App = () => {
                 </div>
             </form>
         </div>
-
-
     );
 }
 

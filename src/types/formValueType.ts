@@ -15,3 +15,7 @@ export type FormValueType = {
     carService: boolean
     other: string
 }
+export type ActivitiesType = {
+    name: string
+    option: string
+}
