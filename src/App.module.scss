@@ -1,0 +1,41 @@
+.field {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.buttonBox {
+width: 200px;
+}
+
+.formItemBlock{
+  display: flex;
+  max-width: 700px;
+  margin-bottom: 10px;
+  .wrapper{
+    display: flex;
+    width: 400px;
+    padding-left: 20px;
+  }
+}
+.formItemBlock label{
+  width: 200px;
+}
+.addressBlock{
+  display: flex;
+  margin-bottom: 10px;
+  .addressWrapper{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 700px;
+    padding-left: 20px;
+    .officeBlock{
+      display: flex;
+      width: 150px;
+    }
+  }
+}
+.addressLabel{
+  width: 200px;
+}
+
