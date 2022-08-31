@@ -1,4 +1,4 @@
-# idp-project
+# sprweb-task
 ### Для проверки задания:
 > node 16.10.0
 ```
