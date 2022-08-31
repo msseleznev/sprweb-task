@@ -24,6 +24,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   ActionsType
 >;
+export type NullableType<T> = null | T;
 
 // @ts-ignore
 window.store = store;

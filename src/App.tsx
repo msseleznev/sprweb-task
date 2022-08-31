@@ -6,10 +6,11 @@ import {FormValueType} from "./types/formValueType";
 import {Input} from './components/Input';
 import {Radio} from './components/Radio';
 import {useAppDispatch, useAppSelector} from "./hooks/hooks";
-import {setFormData} from "./store/registrationReducer";
+import {saveFormDataTC} from "./store/registrationReducer";
+import {SNACK_BAR_TYPES, SnackBar} from "./components/SnackBar/SnackBar";
 
 const App = () => {
-    const activities = useAppSelector(state => state.registration.activities)
+    const {activities,appMessage} = useAppSelector(state => state.registration)
     const dispatch = useAppDispatch()
 
 
@@ -32,7 +33,7 @@ const App = () => {
             other: '',
         } as FormValueType,
         onSubmit: (values: FormValueType) => {
-            dispatch(setFormData({data: values}))
+            dispatch(saveFormDataTC(values))
         },
         validate: (values: FormValueType) => {
             const errors = {} as FormValueType;
@@ -193,6 +194,8 @@ const App = () => {
                     </button>
                 </div>
             </form>
+            {appMessage &&
+                <SnackBar message={appMessage} type={SNACK_BAR_TYPES.SUCCESS}/>}
         </div>
     );
 }
