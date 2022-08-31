@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/sprweb-task/static/css/main.7ce91bbf.css",
+    "main.js": "/sprweb-task/static/js/main.7339dec5.js",
+    "static/js/787.eaf9603f.chunk.js": "/sprweb-task/static/js/787.eaf9603f.chunk.js",
+    "index.html": "/sprweb-task/index.html",
+    "main.7ce91bbf.css.map": "/sprweb-task/static/css/main.7ce91bbf.css.map",
+    "main.7339dec5.js.map": "/sprweb-task/static/js/main.7339dec5.js.map",
+    "787.eaf9603f.chunk.js.map": "/sprweb-task/static/js/787.eaf9603f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7ce91bbf.css",
+    "static/js/main.7339dec5.js"
+  ]
+}
